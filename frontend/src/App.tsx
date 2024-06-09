@@ -1,7 +1,11 @@
+import { BooksProvider } from "./context/books"
 import { AppRoutes } from "./routes"
 function App() {
 
-  return (<AppRoutes/>)
+  return (
+  <BooksProvider>
+    <AppRoutes/>
+  </BooksProvider>)
 }
 
 export default App

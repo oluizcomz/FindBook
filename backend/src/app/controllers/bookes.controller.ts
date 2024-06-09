@@ -30,14 +30,15 @@ class BooksController {
     }
     async find(HttpRequest: HttpRequest):Promise<HttpResponse> {
         try {
-            const dto: BookDto   = HttpRequest.query;
-            if (!dto) {
+            console.log(HttpRequest);
+            const query: String   = HttpRequest.query.query;
+            if (!query) {
                 return {
                     status: 400,
-                    message: "Title is required"
+                    message: "Query is required"
                 }
             }
-            const reponse = await this.booksUseCase.find(dto);
+            const reponse = await this.booksUseCase.find(query);
             return {
                 message: "Book found",
                 status: 200,

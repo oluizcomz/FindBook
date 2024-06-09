@@ -16,7 +16,7 @@ class BookEntity{
         public isbn: string, 
         public pageCount: number, 
         public thumbnailUrl: string,
-        public publishedDate: Date,
+        public publishedDate: Date | null,
         public thumbnail: string, 
         public shortdescription: string, 
         public longDescription: string,

@@ -1,10 +1,12 @@
-import { useCallback, useState } from "react"
+import { useCallback, useContext, useState } from "react"
 import { Button } from "../../components/Button/Button"
 import { Container } from "../../components/Container/Container"
 import { Header } from "../../components/Header/Header"
 import { Title } from "../../components/Title/Title"
 import { Card } from "../../components/Card/Card"
 import { Input } from "../../components/Input/Input"
+import { sarchBooks } from "../../services/books"
+import { BooksContext } from "../../context/books"
 
 
 const genderBookes=[
@@ -17,6 +19,7 @@ const genderBookes=[
 ]
 export function Home() {
     const [selectedGender, setSelectedGender] = useState<string[]>([]);
+    const {books, handleSetBooks} = useContext(BooksContext);
     const handleSelect = useCallback((title: string) => {
         if(selectedGender.includes(title)){
             setSelectedGender(selectedGender.filter((item) => item !== title))
@@ -24,6 +27,12 @@ export function Home() {
             setSelectedGender([...selectedGender, title])
         }
     }, [selectedGender]);
+    const handleSubmit = useCallback( async(input: string) => {
+        const response = await sarchBooks(input);
+        console.log(response);
+        handleSetBooks(response);
+    }, [handleSetBooks]);
+
 
     return(
     <div className="mb-6">
@@ -44,10 +53,19 @@ export function Home() {
             <p className="text-evergreen font-semibold text-2xl">
                 Sobre o que você gostaria de receber uma recomendação de livro?
             </p>
-            <Input placeholder="Eu gostaria de ler..."/>
+            <Input placeholder="Eu gostaria de ler..." onKeyDown={(e:any)=>{
+                console.log('aqui');
+                if(e.key === "Enter"){
+                    handleSubmit(e.target.value);
+                }
+            }}/>
         </div>
         <Title title="Livros  recomendados" className="my-5"></Title>
-        <Card id="1"></Card>
+        <div className="gap-4 grid md:grid-cols-3 ">
+            {books.map((book) => {
+                return <Card key={book._id} id={book._id} book={book}></Card>
+            })}
+        </div>
       </Container>
     </div>
     )

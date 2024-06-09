@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { forwardRef, useCallback } from "react"
 
-type Props = {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     placeholder: string
 }
 export const Input =  forwardRef<HTMLInputElement, Props>(
